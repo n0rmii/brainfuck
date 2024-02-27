@@ -1,9 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main(int argc, char *argv[]){
-	char fullinst[100];
-	scanf(" %s", fullinst);
+	FILE *inptr = stdin;
+	FILE *outptr = stdout;
+	char fullinst[256];
+	for(int i=1; i<argc-1; i++){
+		if(strcmp(argv[1], "-i")){
+			inptr = fopen(argv[i+1], "r");
+		}
+		else if(strcmp(argv[1], "-o")){
+			outptr = fopen(argv[i+1], "w");
+		}
+	}
+	fread(fullinst, sizeof(char), 256, inptr);
 	printf("\nfull: \n%s\n", fullinst);
 	char *data = calloc(0xff, sizeof(char));
 	unsigned char dptr = 0;
@@ -26,7 +37,7 @@ int main(int argc, char *argv[]){
 				data[dptr]--;
 				break;
 			case '.':
-				printf("%c ", data[dptr]);
+				fprintf(outptr, "%c", data[dptr]);
 				break;
 			case ',':
 				scanf(" %c", &data[dptr]);
@@ -54,11 +65,10 @@ int main(int argc, char *argv[]){
 						}
 					}
 				}
-				break;
-			default:
-				break;
 		}
 		inst = fullinst[++iptr];
 	}
+	fclose(inptr);
+	fclose(outptr);
 	return 0;
 }

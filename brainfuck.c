@@ -14,8 +14,7 @@ int main(int argc, char *argv[]){
 			outptr = fopen(argv[i+1], "w");
 		}
 	}
-	printf("\ntest1\n");
-	fread(fullinst, sizeof(char), 256, inptr);
+	fgets(fullinst, 256, inptr);
 	printf("\nfull: \n%s\n", fullinst);
 	char *data = calloc(0xff, sizeof(char));
 	unsigned char dptr = 0;
